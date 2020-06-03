@@ -10,13 +10,9 @@
     <meta name="author" content="Chitchat">
     <link rel="icon" href="../assets/images/favicon/favicon.png" type="image/x-icon">
     <link rel="shortcut icon" href="../assets/images/favicon/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="../Montserrat.css">
-    <link rel="stylesheet" type="text/css" href="../Roboto.css">
-    <link rel="stylesheet" type="text/css" href="../Rubik.css">
-
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,600&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../fonts.googleapis.com/Montserrat.css">
+    <link rel="stylesheet" type="text/css" href="../../../fonts.googleapis.com/Roboto.css">
+    <link rel="stylesheet" type="text/css" href="../../../fonts.googleapis.com/Rubik.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/date-picker.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/magnific-popup.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" media="screen" id="color">
@@ -39,14 +35,14 @@
                   <div class="login-content-header"><img class="image-fluid" src="../assets/images/logo/landing-logo.png" alt="images"></div>
                   <h3>Hello Everyone , We are MO-facetime</h3>
                   <h4>Wellcome to Mo-facetime please login to your account</h4>
-                  <form class="form1">
+                  <div class="form1">
                     <div class="form-group">
                       <label class="col-form-label" for="inputEmail3">Email Address</label>
-                      <input class="form-control" id="inputEmail3" type="email" placeholder="Email Address">
+                      <input class="form-control" id="email" type="email" placeholder="Email Address">
                     </div>
                     <div class="form-group">
                       <label class="col-form-label" for="inputPassword3">Password</label><span> </span>
-                      <input class="form-control" id="inputPassword3" type="password" placeholder="Password">
+                      <input class="form-control" id="pass" type="password" placeholder="Password">
                     </div>
                     <div class="form-group">
                       <div class="rememberchk">
@@ -58,17 +54,17 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <div class="buttons"><a class="btn btn-primary button-effect" href="#">Login</a><a class="btn button-effect btn-signup" href="#">Sign Up</a></div>
+                      <div class="buttons"><a class="btn btn-primary button-effect" id="Login">Login</a><a class="btn button-effect btn-signup" id="SignUp">Sign Up</a></div>
                     </div>
-                  </form>
+                  </div>
                   <div class="line">
                     <h6>OR Connect with</h6>
                   </div>
                   <div class="medialogo">
                     <ul>
-                      <li><a class="icon-btn btn-danger button-effect" href="#"><i class="fa fa-google"></i></a></li>
-                      <li><a class="icon-btn btn-primary button-effect" href="#"><i class="fa fa-twitter"></i></a></li>
-                      <li><a class="icon-btn btn-facebook button-effect" href="#"><i class="fa fa-facebook-f"></i></a></li>
+                      <li><a class="icon-btn btn-danger button-effect" onclick="signin_gmail()" ><i class="fa fa-google"></i></a></li>
+                      <li><a class="icon-btn btn-primary button-effect" onclick="signin_twitter()" ><i class="fa fa-twitter"></i></a></li>
+                      <li><a class="icon-btn btn-facebook button-effect" onclick="signin_fb()"><i class="fa fa-facebook-f"></i></a></li>
                     </ul>
                   </div>
                   <div class="termscondition">
@@ -112,5 +108,112 @@
         </div>
       </div>
     </div>
+
+
+    
+    <script src="https://kit.fontawesome.com/00a930d576.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-auth.js"></script>
+
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyDsiYw8slYB7tOyOOInuvcVMDRSmA5OH7Q",
+        authDomain: "mo-facetime-db.firebaseapp.com",
+        databaseURL: "https://mo-facetime-db.firebaseio.com",
+        projectId: "mo-facetime-db",
+        storageBucket: "mo-facetime-db.appspot.com",
+        messagingSenderId: "296452795543",
+        appId: "1:296452795543:web:9682e9730a669069020dd2",
+        measurementId: "G-3X678568GR"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      
+      firebase.auth().onAuthStateChanged(firebaseUser => {
+        if(firebaseUser)
+        {
+          location.replace("messenger.html");
+        }
+        else
+        alert('user not connected');
+      });
+
+
+      database = firebase.database();
+
+
+
+      var login,signin;
+      login = document.getElementById("Login");
+      SignUp = document.getElementById("SignUp");
+
+      login.addEventListener("click",function(){
+        email = document.getElementById("email").value;
+        pass = document.getElementById("pass").value;
+        firebase.auth().signInWithEmailAndPassword(email,pass)
+        .then(function(){
+          alert("user sussufuly loged in");
+        })
+        .catch(function(error){
+            alert(error.message);
+        })
+      });
+
+      SignUp.addEventListener("click",function(){
+        temail = document.getElementById("email").value;
+        tpass = document.getElementById("pass").value;
+        firebase.auth().createUserWithEmailAndPassword(temail, tpass)
+        .then(function(){
+          var key = database.ref('users').push('none').key;
+          var newData={
+              id: key,
+              email:temail,
+              friends: 0
+          }
+          database.ref('users/'+key).set(newData);
+          alert("user sussufuly created");
+        })
+        .catch(function(error) {
+          alert(error.message);
+        });
+      });
+
+      //var username,useremail;
+      function signin_fb(){
+        var provider = new firebase.auth.FacebookAuthProvider();
+        provider.addScope('user_birthday');
+        firebase.auth().useDeviceLanguage();
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+          // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+          var token = result.credential.accessToken;
+          // The signed-in user info.
+          var user = result.user;
+          // ...
+
+          var key = database.ref('users').push('none').key;
+          var newData={
+              id: key,
+              email:user.email,
+              friends: 0
+          }
+          database.ref('users/'+key).set(newData);
+          alert('user sussufuly loged in by Facebook');
+        }).catch(function(error) {
+          alert(error.message);
+        });
+      }
+
+      function signin_gmail(){
+        alert('gmail connection');
+      }
+      function signin_twitter(){
+        alert('twitter connection');
+      }
+
+
+    </script>
+
   </body>
 </html>
