@@ -26,6 +26,7 @@
             id: currn.uid,
             username:tusername,
             email:temail,
+            photoUrl:'',
             friends: {}
         }
         database.ref('users/'+currn.uid).set(newData);
@@ -86,6 +87,7 @@
             id: Us.uid,
             username:Us.displayName,
             email:Us.email,
+            photoUrl:Us.photoURL,
             friends: {}
         }
         db.ref('users/'+Us.uid).set(newData);
