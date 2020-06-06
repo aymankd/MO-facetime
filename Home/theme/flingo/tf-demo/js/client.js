@@ -13,9 +13,10 @@
       firebase.initializeApp(firebaseConfig);
       firebase.auth().onAuthStateChanged(firebaseUser => {
         if(!firebaseUser)
-            location.replace("login.html");
+            location.replace("../../../../login/themes.pixelstrap.com/chitchat/pages/login.html");
         else
         {
+
             setupUser(firebaseUser);
             console.log(firebaseUser);
         }

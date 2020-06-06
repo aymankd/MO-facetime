@@ -15,15 +15,13 @@
 
       var login = document.getElementById("Login");
 
-
-
       login.addEventListener("click",function(){
         email = document.getElementById("email").value;
         pass = document.getElementById("pass").value;
         firebase.auth().signInWithEmailAndPassword(email,pass)
         .then(function(){
           alert("user sussufuly loged in");
-          location.replace("messenger.html");
+          location.replace("../../../../Home/theme/flingo/tf-demo/messenger.html");
         })
         .catch(function(error){
             alert(error.message);
@@ -46,7 +44,7 @@
             if (!exists) {
               location.replace("register.html");
             }else
-            location.replace("messenger.html");
+            location.replace("../../../../Home/theme/flingo/tf-demo/messenger.html");
           });
         }).catch(function(error) {
           alert(error.message);

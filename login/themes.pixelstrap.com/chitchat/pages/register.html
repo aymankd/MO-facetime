@@ -10,13 +10,9 @@
     <meta name="author" content="Chitchat">
     <link rel="icon" href="../assets/images/favicon/favicon.png" type="image/x-icon">
     <link rel="shortcut icon" href="../assets/images/favicon/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="../Montserrat.css">
-    <link rel="stylesheet" type="text/css" href="../Roboto.css">
-    <link rel="stylesheet" type="text/css" href="../Rubik.css">
-
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,600&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i,900,900i&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../../fonts.googleapis.com/Montserrat.css">
+    <link rel="stylesheet" type="text/css" href="../../../fonts.googleapis.com/Roboto.css">
+    <link rel="stylesheet" type="text/css" href="../../../fonts.googleapis.com/Rubik.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/date-picker.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/magnific-popup.css">
     <link rel="stylesheet" type="text/css" href="../assets/css/style.css" media="screen" id="color">
@@ -39,7 +35,11 @@
                   <div class="login-content-header"><img class="image-fluid" src="../assets/images/logo/landing-logo.png" alt="images"></div>
                   <h3>Hello Everyone , We are MO-facetime</h3>
                   <h4>Wellcome to Mo-facetime please login to your account</h4>
-                  <form class="form1">
+                  <div class="form1">
+                    <div class="form-group">
+                      <label class="col-form-label" for="inputEmail3">Username</label>
+                      <input class="form-control" id="username" type="text" placeholder="Username">
+                    </div>
                     <div class="form-group">
                       <label class="col-form-label" for="inputEmail3">Email Address</label>
                       <input class="form-control" id="email" type="email" placeholder="Email Address">
@@ -53,21 +53,21 @@
                         <div class="form-check">
                           <input class="form-check-input" id="gridCheck1" type="checkbox">
                           <label class="form-check-label" for="gridCheck1">Remember Me</label>
-                          <a href="register.html">Don't have an account?</a>
+                          <a href="login.html"><h6> You have already an account ?</h6></a>
                         </div>
                       </div>
                     </div>
                     <div class="form-group">
-                      <div class="buttons" id="Login" ><a class="btn btn-primary button-effect" href="#">Login</a></div>
+                      <div class="buttons"><a class="btn button-effect btn-signup" id="SignUp">Sign Up</a></div>
                     </div>
-                  </form>
+                  </div>
                   <div class="line">
                     <h6>OR Connect with</h6>
                   </div>
                   <div class="medialogo">
                     <ul>
-                      <li><a class="icon-btn btn-danger button-effect" ><i class="fa fa-google"></i></a></li>
-                      <li><a class="icon-btn btn-primary button-effect" ><i class="fab fa-microsoft"></i></a></li>
+                      <li><a class="icon-btn btn-danger button-effect" onclick="signin_gmail()" ><i class="fa fa-google"></i></a></li>
+                      <li><a class="icon-btn btn-primary button-effect" onclick="signin_twitter()" ><i class="fa fa-twitter"></i></a></li>
                       <li><a class="icon-btn btn-facebook button-effect" onclick="signin_fb()"><i class="fa fa-facebook-f"></i></a></li>
                     </ul>
                   </div>
@@ -112,9 +112,12 @@
         </div>
       </div>
     </div>
+
+
+    
+    <script src="https://kit.fontawesome.com/00a930d576.js" crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-auth.js"></script>
+    <script src="register.js"></script>
   </body>
-  <script src="https://kit.fontawesome.com/00a930d576.js" crossorigin="anonymous"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-auth.js"></script>
-  <script src="login.js"></script>
 </html>

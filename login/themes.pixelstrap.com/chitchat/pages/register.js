@@ -30,7 +30,7 @@
           }
           database.ref('users/'+key).set(newData);
           alert("user sussufuly created");
-          location.replace("messenger.html");
+          location.replace("../../../../Home/theme/flingo/tf-demo/messenger.html");
         })
         .catch(function(error) {
           alert(error.message);
@@ -90,6 +90,6 @@
         }
         db.ref('users/'+Us.uid).set(newData);
         alert('user sussufuly created an account by Facebook');
-        location.replace("messenger.html");
+        location.replace("../../../../Home/theme/flingo/tf-demo/messenger.html");
       }
 
