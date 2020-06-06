@@ -20,15 +20,18 @@
         temail = document.getElementById("email").value;
         tpass = document.getElementById("pass").value;        
         firebase.auth().createUserWithEmailAndPassword(temail, tpass)
-        .then(function(){
-          var key = database.ref('users').push('none').key;
+        .then(function(autodata){
+          
+          console.log(autodata.user);
+          currn = autodata.user;
+
           var newData={
-              id: key,
-              username:tusername,
-              email:temail,
-              friends: 0
-          }
-          database.ref('users/'+key).set(newData);
+            id: currn.uid,
+            username:tusername,
+            email:temail,
+            friends: {}
+        }
+        database.ref('users/'+currn.uid).set(newData);
           alert("user sussufuly created");
           location.replace("../../../../Home/theme/flingo/tf-demo/messenger.html");
         })
