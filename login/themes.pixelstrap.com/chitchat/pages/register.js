@@ -21,10 +21,7 @@
         tpass = document.getElementById("pass").value;        
         firebase.auth().createUserWithEmailAndPassword(temail, tpass)
         .then(function(autodata){
-          
-          console.log(autodata.user);
           currn = autodata.user;
-
           var newData={
             id: currn.uid,
             username:tusername,
