@@ -1,9 +1,27 @@
-user_avatar = $('.user-avatar img');
+
+user_avatar = document.getElementById('avatar-image');
+user_avatar_model = document.getElementById('user-avatar-model');
+currenusername = document.getElementById('curren-username');
+
+
+
 
 const setupUser = (user) => {
     if(user)
     {
-        if(user_avatar)
-        user_avatar.src = "https://graph.facebook.com/1672906972857877/picture";
+        if(user.photoURL)
+        {
+            user_avatar.src = user.photoURL ;
+            user_avatar_model = user.photoURL ;
+        }
+        else
+        {
+            user_avatar_model.src = "https://www.pearsoncollege.ca/wp-content/uploads/2019/12/placeholder-profile.jpg" ;
+            user_avatar.src = "https://www.pearsoncollege.ca/wp-content/uploads/2019/12/placeholder-profile.jpg" ;
+        }
+        currenusername.innerHTML = user.Displayname
+        
     }
-}
+} 
+
+
