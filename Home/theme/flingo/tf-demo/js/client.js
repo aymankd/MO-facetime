@@ -16,9 +16,7 @@
             location.replace("../../../../login/themes.pixelstrap.com/chitchat/pages/login.html");
         else
         {
-
             setupUser(firebaseUser);
-            console.log(firebaseUser);
         }
       });
 

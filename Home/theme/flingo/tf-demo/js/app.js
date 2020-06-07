@@ -179,17 +179,25 @@ $(document).ready(function () {
    RESPONSIVE START
   --------------------------------------------------------------*/
 
-  $(function () {
     var $window = $(window),
       $body = $('body');
 
+      clickedchat = null;
+      clickedcantact = null;
+
     function resize() {
-      if ($window.width() < 992) {
         $(".conversation, .calllist, .contactlist").removeClass("active");
         $("#personal-chat .conversation").on('click', function () {
+          if(clickedchat)
+          {
+            clickedchat.removeAttr('id'); 
+            clickedchat.removeClass("active");
+          }
           $(this).addClass("active");
+          $(this).attr('id','clickedchat');
           $(".ca-content__chatstab--personal").show();
           $(".ca-content-wrapper").addClass("open");
+          clickedchat = $(this);
         });
         $("#groups-chat .conversation").on('click', function () {
           $(this).addClass("active");
@@ -202,9 +210,16 @@ $(document).ready(function () {
           $(".ca-content-wrapper").addClass("open");
         });
         $("#caContacts .contactlist").on('click', function () {
+          if(clickedcantact)
+          {
+            clickedcantact.removeAttr('id'); 
+            clickedcantact.removeClass("active");
+          }
           $(this).addClass("active");
+          $(this).attr('id','clickedcantact');
           $(".ca-content__contactstab").show();
           $(".ca-content-wrapper").addClass("open");
+          clickedcantact = $(this);
         });
         $(".conversation-panel__back-button").on('click', function () {
           $(".ca-content-wrapper").removeClass("open");
@@ -212,12 +227,12 @@ $(document).ready(function () {
         });
         return $body.addClass('small-devices');
       }
-    }
+
 
     $window
       .resize(resize)
       .trigger('resize');
-  })
+
 
 
   /*--------------------------------------------------------------

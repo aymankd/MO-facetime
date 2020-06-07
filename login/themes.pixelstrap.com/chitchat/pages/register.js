@@ -26,7 +26,7 @@
             id: currn.uid,
             username:tusername,
             email:temail,
-            photoUrl:'',
+            photoUrl:'https://www.pearsoncollege.ca/wp-content/uploads/2019/12/placeholder-profile.jpg',
             friends: {}
         }
         database.ref('users/'+currn.uid).set(newData);
