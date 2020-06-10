@@ -7,6 +7,9 @@ see_img_contact = document.getElementById('see-img-contact');
 see_name_contact = document.getElementById('see-name-cantact');
 Create_msg = document.getElementById('Create-msg');
 messaging = document.getElementById('messaging');
+chat_cantainer = document.getElementById('chat-cantainer');
+chater_avatar = document.getElementById('chater-avatar');
+chater_name = document.getElementById('chater-name');
 
 
 
@@ -42,7 +45,9 @@ const setupUser = (user) => {
                     exists = (snap.val() !== null);
                     if(exists)
                     {
-                        cantmsg = '<li><div class="conversation unread" id="clickedchat"><div class="user-avatar user-avatar-rounded online"><img src="'+snapshot.child("photoUrl").val()+'" alt=""></div><div class="conversation__details"><div class="conversation__name"><div class="conversation__name--title">'+snapshot.child("username").val()+'</div></div></div></div></li>';
+                        msgsref = snap.child('msg').val();
+                        cantmsg = `<li onclick="loadMessages('${snap.key}','${snapshot.child("username").val()}','${snapshot.child("photoUrl").val()}')">`;
+                        cantmsg = cantmsg+'<div class="conversation unread" id="clickedchat"><div class="user-avatar user-avatar-rounded online"><img src="'+snapshot.child("photoUrl").val()+'" alt=""></div><div class="conversation__details"><div class="conversation__name"><div class="conversation__name--title">'+snapshot.child("username").val()+'</div></div></div></div></li>';
                         messaging.insertAdjacentHTML('afterbegin', cantmsg);
                     }
                 });
@@ -87,6 +92,42 @@ function seecontact(idU,photo,name)
   };
 
 }
+
+function loadMessages(msgrep,name,photoprof)
+{
+    chater_name.innerHTML = name;
+    chater_avatar.src = photoprof+"?height=250";
+    chat_cantainer.innerHTML = '';
+    var refcmsg = database.ref('chats/'+msgrep+'/msg');
+    refcmsg.on('value', function(snap) {
+        exists = (snap.val() !== null);
+        if(exists)
+        {
+            snap.forEach(element => {
+                us = element.val()['id'];
+                msg = element.val()['val'];
+                msgtocant = '';
+                if(us == Userid){
+                    msgtocant = `<div class="ca-send"><div class="ca-send__msg-group"><div class="ca-send__msgwrapper"><div class="ca-send__msg">${msg}</div></div><div class="metadata"><span class="time">10:10 AM</span><span class="tick"><img src="./assets/images/tick/tick-read.svg" alt=""></span></div></div></div>`;
+                }else{
+                    msgtocant = `<div class="ca-received"><div class="ca-received__msg-group"><div class="ca-received__msgwrapper"><div class="ca-received__msg">${msg}😀</div></div><div class="metadata"><span class="time">10:10 AM</span></div></div></div>`;
+                }
+                chat_cantainer.insertAdjacentHTML('beforeend', msgtocant);
+            });
+        }
+    });
+    refupdate = database.ref('chats/'+msgrep);
+    refupdate.once('child_changed', function(element) {
+        loadMessages(msgrep,name,photoprof);
+    });    
+}
+
+
+
+
+
+
+
 
 
 /*
