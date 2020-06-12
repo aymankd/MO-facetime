@@ -503,7 +503,7 @@
                             <div class="conversation-wrapper">
                                 <div class="conversation-panel">
                                     <div class="conversation-panel__head">
-                                        <div class="conversation-panel__back-button ">
+                                        <div class="conversation-panel__back-button " onclick="setfree()">
                                             <i class="mdi mdi-arrow-left"></i>
                                         </div>
 
@@ -582,7 +582,7 @@
                                             </div>
 
                                             <div class="composer__middle">
-                                                <textarea class="form-control" rows="1" placeholder="Type a message..."></textarea>
+                                                <textarea class="form-control" rows="1" id="message-to-send" placeholder="Type a message..."></textarea>
                                         
                                                 <div class="composer__middle--microphone">
                                                     <i class="mdi mdi-microphone"></i>
@@ -596,7 +596,7 @@
                                             </div>
 
                                             <div class="composer__right">
-                                                <div class="composer__right--send">
+                                                <div id="send-msg" class="composer__right--send">
                                                     <i class="mdi mdi-send"></i>
                                                 </div>
                                                 <div class="composer__right--microphone">
