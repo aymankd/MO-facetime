@@ -174,6 +174,7 @@ function loadMessages(msgrep,name,photoprof)
                     chat_cantainer.insertAdjacentHTML('beforeend', msgtocant);
                 });
                 sms_pop.play();
+                updateScroll();
             }else
             {
                 document.getElementById('notif'+msgrep).innerHTML = '!!!';
@@ -203,10 +204,24 @@ function setfree()
 {
     OpenedChatRef='';
 }
+function updateScroll()
+{
+  //scrollcant = document.querySelector('.conversation-panel__body');
+  //scrollcant.scrollTop = 0;
+  $('#chat-panel__body_').scrollTop($('#chat-panel__body_').prop("scrollHeight"));
+}
 
 
 
 
+message_input.addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) {
+      // Cancel the default action, if needed
+      event.preventDefault();
+      // Trigger the button element with a click
+      send_msg_btn.click();
+    }
+  });
 
 
 

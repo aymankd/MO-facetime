@@ -50,12 +50,14 @@ $(document).ready(function () {
   selectors.forEach(function (selector) {
     $(selector).each(function () {
       const ps = new PerfectScrollbar($(this)[0], {
-        suppressScrollX: true
+        suppressScrollX: true,
+        wheelSpeed:5
       });
       ps.isRtl = false;
       ps.update();
     });
   });
+
   /*--------------------------------------------------------------
   PERFECT SCROLLBAR END
   --------------------------------------------------------------*/
