@@ -20,4 +20,24 @@
         }
       });
 
+      var name, connectedUser;
+      var ringtone = new Audio('duo_outgoing.mp3');
+
+      var connection = 'https://localhost:8888';
+      var socket = io.connect(connection);
+
+
+      socket.on('connect', () => {
+        console.log('Socket connecté'); // true
+      });
+
+      socket.on('RecieverCall', (message) => {
+        data = JSON.parse(message);
+        reciveCall(data);
+      });
+
+      function send(event,message) 
+      {
+          socket.emit(event,JSON.stringify(message));
+      };
 

@@ -1,4 +1,3 @@
-
 user_avatar = document.getElementById('avatar-image');
 user_avatar_model = document.getElementById('user-avatar-model');
 currenusername = document.getElementById('curren-username');
@@ -13,28 +12,39 @@ chater_name = document.getElementById('chater-name');
 send_msg_btn = document.getElementById('send-msg');
 message_input = document.getElementById('message-to-send');
 var sms_pop = new Audio('sms_pop.mp3');
+start_videocall = document.getElementById('start-videocall');
+caller_profile = document.getElementById('caller-profile');
+caller_name = document.getElementById('caller-name');
 
+reciver_call_profile = document.getElementById('reciver-call-profile');
 
 
 database = firebase.database();
-
-
-
-
 var loaded = false;
+
 
 
 const setupUser = (user) => {
     if(user)
     {
-        Userid=user.uid;
+        Userid = user.uid;
         var ref = database.ref("users/"+Userid);
         ref.once("value")
         .then(function(snapshot) {
             user_avatar.src = snapshot.child("photoUrl").val()+"?height=250"; 
             user_avatar_model.src = snapshot.child("photoUrl").val()+"?height=250";
             currenusername.innerHTML = snapshot.child("username").val();
-            ref.off();
+        send("login",{
+            name: snapshot.child("username").val(),
+            userid:Userid
+        });
+        ref.off();
+        });
+        let peer = new Peer();
+        peerId = null;
+        peer.on('open',id => {
+            peerId = id;
+            alert(peerId);
         });
         
         var ref = database.ref("users");
@@ -63,7 +73,7 @@ const setupUser = (user) => {
                 var chatInfoRef = database.ref("users/"+chatid);
                 chatInfoRef.once("value")
                 .then(function(snapchat) {
-                    cantmsg = `<li onclick="loadMessages('${snapC.key}','${snapchat.child('username').val()}','${snapchat.child("photoUrl").val()}')">`;
+                    cantmsg = `<li onclick="loadMessages('${snapC.key}','${snapchat.child('username').val()}','${snapchat.child("photoUrl").val()}','${snapchat.child("id").val()}')">`;
                     cantmsg = cantmsg+'<div class="conversation unread" id="clickedchat"><div class="user-avatar user-avatar-rounded online"><img src="'+snapchat.child("photoUrl").val()+'" alt=""></div><div class="conversation__details"><div class="conversation__name"><div class="conversation__name--title">'+snapchat.child("username").val()+'</div></div><div class="conversation__message"><div id="lastmsg'+snapC.key+'" class="conversation__message-preview"></div><span id="notif'+snapC.key+'" class="badge badge-primary badge-rounded"></span></div></div></div></li>';
                     messaging.insertAdjacentHTML('afterbegin', cantmsg);
                     chatInfoRef.off();
@@ -72,30 +82,6 @@ const setupUser = (user) => {
         });
     }
 } 
-
-/*
-
-
-
-
-
-
-                    add chat
-
-        idCnt = snapshot.child("id").val();
-        var refchatmsg = database.ref('chats');
-        refchatmsg.orderByChild(Userid+' '+idCnt).equalTo(0).on('value', function(element) {
-            exists = (element.val() !== null);
-            if(exists)
-            {
-                msgsref = element.val()['msg'];
-                cantmsg = `<li onclick="loadMessages('${element['key']}','${snapshot.child("username").val()}','${snapshot.child("photoUrl").val()}')">`;
-                cantmsg = cantmsg+'<div class="conversation unread" id="clickedchat"><div class="user-avatar user-avatar-rounded online"><img src="'+snapshot.child("photoUrl").val()+'" alt=""></div><div class="conversation__details"><div class="conversation__name"><div class="conversation__name--title">'+snapshot.child("username").val()+'</div></div></div></div></li>';
-                messaging.insertAdjacentHTML('afterbegin', cantmsg);
-            }
-            refchatmsg.off();
-        });
-*/
 
 
 
@@ -136,14 +122,32 @@ function seecontact(idU,photo,name)
         }else
         alert('you already have chat with this user');
     });
-
   };
-
 }
+
+
+
+
+    function sendCall(idCaller,idRiciver,phURL)
+    {
+        reciver_call_profile.src = phURL+"?height=250";
+        send("calling",{
+            caller: idCaller,
+            reciver: idRiciver
+        });
+    }
+
+
+
+
+
+
+
+
 
 OpenedChatRef = null;
 
-function loadMessages(msgrep,name,photoprof)
+function loadMessages(msgrep,name,photoprof,idTocall)
 {
     document.getElementById('notif'+msgrep).innerHTML = '';
     document.getElementById('lastmsg'+msgrep).innerHTML = '';
@@ -198,6 +202,9 @@ function loadMessages(msgrep,name,photoprof)
         }
         message_input.value = '';
     };
+    start_videocall.onclick = function(){
+        sendCall(Userid,idTocall,photoprof);
+    };
 }
 
 function setfree()
@@ -221,11 +228,42 @@ message_input.addEventListener("keyup", function(event) {
       // Trigger the button element with a click
       send_msg_btn.click();
     }
-  });
+});
 
 
+const reciveCall = (datacall) => {
+    if(datacall)
+    {
+        callerid = datacall.caller;
+        var ref = database.ref("users/"+callerid);
+        ref.once("value")
+        .then(function(snapshot) {
+            caller_profile.src = snapshot.child("photoUrl").val()+"?height=250"; 
+            caller_name.innerHTML = snapshot.child("username").val();
+        ref.off();
+        });
+
+        console.log(callerid+' is calling me');
+
+        setTimeout(function () {
+            $('#incomingVoiceCall').modal( {
+            backdrop: 'static',
+            keyboard: false,
+            show:true
+            });
+        }, 1300);
+        $(".call-pickup").on('click', function () {
+            $('#incomingVoiceCall').modal('hide');
+            $('#incomingVoiceStart').modal( {
+            backdrop: 'static',
+            keyboard: false,
+            show:true
+            });
+        });
+    }
 
 
+}
 
 
 

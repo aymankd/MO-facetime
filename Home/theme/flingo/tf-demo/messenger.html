@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="./assets/vendors/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="./css/app.css">
     <link rel="stylesheet" href="./css/theme/default.css">
+    
 </head>
 <body class="light-default-theme ">
     <div class="ca-main-conatiner">
@@ -520,7 +521,7 @@
                                             <div class="action-icon"  data-toggle="modal" data-target="#outGoingCall">
                                                 <i class="mdi mdi-phone"></i>
                                             </div>
-                                            <div class="action-icon" data-toggle="modal" data-target="#incomingVideoStart">
+                                            <div class="action-icon" id="start-videocall" data-toggle="modal" data-target="#incomingVoiceCallwait">
                                                 <i class="mdi mdi-video-outline"></i>
                                             </div>
 
@@ -2945,6 +2946,49 @@
                                     <div class="call-actions">
                                         <div class="call-hangup" data-dismiss="modal"><i class="mdi mdi-phone-hangup"></i></div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- VIDEO CALL START-->
+            <div class="modal calling-modal CallDialogFullscreen-sm show" id="incomingVoiceCall" tabindex="-1" role="dialog" aria-labelledby="incomingVoiceCall" aria-modal="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="text-center">
+                                <div class="user-avatar user-avatar-rounded user-avatar-xl">
+                                    <img id="caller-profile" src="./assets/images/user/250/01.jpg" alt="">
+                                </div>
+                                <div class="userprofile-name">
+                                    <span>Incoming Call</span>
+                                    <h4 id="caller-name"></h4>
+                                </div>
+
+                                <div class="call-actions">
+                                    <div class="call-hangup" id="video-call-hangup" data-dismiss="modal"><i class="mdi mdi-phone-hangup"></i></div>
+                                    <div class="call-pickup" id="video-call-pickup" data-toggle="modal"><i class="mdi mdi-phone"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal calling-modal CallDialogFullscreen-sm show" id="incomingVoiceCallwait" tabindex="-1" role="dialog" aria-labelledby="incomingVoiceCall" aria-modal="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="text-center">
+                                <div class="user-avatar user-avatar-rounded user-avatar-xl">
+                                    <img id="reciver-call-profile" src="./assets/images/user/250/01.jpg" alt="">
+                                </div>
+                                <div class="userprofile-name">
+                                    <span>Callin ...</span>
+                                </div>
+
+                                <div class="call-actions">
+                                    <div class="call-hangup" id="video-tocall-hangup" data-dismiss="modal"><i class="mdi mdi-phone-hangup"></i></div>
                                 </div>
                             </div>
                         </div>
@@ -5435,7 +5479,9 @@
             <div class="backdrop-overlay hidden"></div>
         </div>
     </div>
-
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.2.0/peerjs.min.js"></script>
     <script src="./assets/vendors/jquery/jquery-3.4.1.min.js"></script>
     <script src="./assets/vendors/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="./assets/vendors/material-floating-button/dist/mfb.min.js"></script>
@@ -5446,6 +5492,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-auth.js"></script>
     <script src="js/client.js"></script>
     <script src="js/index.js"></script>
+
    
 
 </body>

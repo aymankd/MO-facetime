@@ -51,7 +51,8 @@ $(document).ready(function () {
     $(selector).each(function () {
       const ps = new PerfectScrollbar($(this)[0], {
         suppressScrollX: true,
-        wheelSpeed:5
+        wheelSpeed:5,
+        handlers:['drag-thumb','keyboard','wheel']
       });
       ps.isRtl = false;
       ps.update();
