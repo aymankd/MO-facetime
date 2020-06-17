@@ -15,28 +15,6 @@ var io = require('socket.io')(server);
 
 
 
-app.get('/',(req, res, next) => {
-    res.sendFile(__dirname + '\\..\\messenger.html');
-});
-
-
-/*
-
-app.all('/',(req, res, next) => {
-    res.sendFile(__dirname + '\\..\\messenger.html');
-});
-
-app.all('/messaging',(req, res, next) => {
-    res.send('hello from messaging')
-});
-app.use((req, res, next) => {
-    res.send('404 page not found')
-});
-
-
-*/
-
-
 
 
 users = {};
@@ -64,6 +42,34 @@ io.on('connection', function (connection)
             console.log(data.caller+' is calling '+data.reciver);    
         }
     });
+
+    connection.on('hangup', function (message) 
+    {
+        data = JSON.parse(message);
+        if(users[data.to])
+        {
+            noting = {
+                nothing:data.to
+            };
+            sendTo('closeCall',users[data.to],noting);
+            console.log(data.to+' finishing sending call ');    
+        }
+    });
+    connection.on('Callanwser', function (message) 
+    {
+        data = JSON.parse(message);
+        if(users[data.to])
+        {
+            dataTosend = {
+                to:data.to,
+                peeId:data.PeeId
+            };
+            sendTo('accepteCall',users[data.to],dataTosend);
+            console.log(data.to+'Video Call Startiing ...');    
+        }
+    });
+
+    
 
     connection.on('disconnect', function () 
     {

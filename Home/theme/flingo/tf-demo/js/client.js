@@ -36,6 +36,16 @@
         reciveCall(data);
       });
 
+      socket.on('closeCall', (message) => {
+        data = JSON.parse(message);
+        recivehangup();
+      });
+      socket.on('accepteCall', (message) => {
+        data = JSON.parse(message);
+        StartCall(data);
+      });
+
+
       function send(event,message) 
       {
           socket.emit(event,JSON.stringify(message));

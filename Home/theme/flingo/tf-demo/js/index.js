@@ -15,14 +15,23 @@ var sms_pop = new Audio('sms_pop.mp3');
 start_videocall = document.getElementById('start-videocall');
 caller_profile = document.getElementById('caller-profile');
 caller_name = document.getElementById('caller-name');
+video_call_hangup = document.getElementById('video-call-hangup');
+video_call_pickup = document.getElementById('video-call-pickup');
+
+video_user = document.getElementById('video-user');
+video_called_user = document.getElementById('video-called-user');
+
 
 reciver_call_profile = document.getElementById('reciver-call-profile');
 
 
 database = firebase.database();
 var loaded = false;
-
-
+let peer = new Peer();
+peer.on('open',id => {
+    peerId = id;
+    alert(peerId);
+});
 
 const setupUser = (user) => {
     if(user)
@@ -40,12 +49,8 @@ const setupUser = (user) => {
         });
         ref.off();
         });
-        let peer = new Peer();
-        peerId = null;
-        peer.on('open',id => {
-            peerId = id;
-            alert(peerId);
-        });
+        
+
         
         var ref = database.ref("users");
 
@@ -231,6 +236,8 @@ message_input.addEventListener("keyup", function(event) {
 });
 
 
+
+
 const reciveCall = (datacall) => {
     if(datacall)
     {
@@ -243,6 +250,13 @@ const reciveCall = (datacall) => {
         ref.off();
         });
 
+        video_call_hangup.onclick = function(){
+            closeCall(callerid);
+        };
+        video_call_pickup.onclick = function(){
+            accepteCall(callerid,peerId)
+        };
+
         console.log(callerid+' is calling me');
 
         setTimeout(function () {
@@ -252,18 +266,68 @@ const reciveCall = (datacall) => {
             show:true
             });
         }, 1300);
-        $(".call-pickup").on('click', function () {
-            $('#incomingVoiceCall').modal('hide');
-            $('#incomingVoiceStart').modal( {
-            backdrop: 'static',
-            keyboard: false,
-            show:true
-            });
-        });
     }
+}
 
-
+function closeCall(caId)
+{
+    send("hangup",{to: caId});
+}
+function accepteCall(caId,Pid)
+{
+    send("Callanwser",{to: caId,PeeId:Pid});
+    $('#incomingVoiceCall').modal("hide");
 }
 
 
 
+function recivehangup(){
+    console.log('close call');
+    $('#incomingVoiceCallwait').modal("hide");
+};
+
+
+function StartCall(Data){
+    console.log('Staring call');
+    $('#incomingVoiceCallwait').modal("hide");
+    $('#incomingVideoStart').modal( {
+        backdrop: 'static',
+        keyboard: false,
+        show:true
+        });
+    reciverId = Data.peeId;
+
+
+
+    var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia ;
+    getUserMedia({video: true}, function(stream) {
+      var call = peer.call(reciverId, stream);
+      video_user.srcObject = stream;
+      video_user.play();
+      console.log('loading video ...');
+      call.on('stream', function(remoteStream) {
+        video_called_user.srcObject = remoteStream;
+        video_called_user.play(); 
+        console.log('my video loaded');
+      });
+    }, function(err) {
+      console.log('Failed to get local stream' ,err);
+    });
+    console.log('other user peerid'+reciverId);
+};
+
+
+var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia ;
+peer.on('call', function(call) {
+  getUserMedia({video: true}, function(stream) {
+    call.answer(stream); // Answer the call with an A/V stream.
+    video_user.srcObject = stream;
+    video_user.play();
+    call.on('stream', function(remoteStream) {
+        video_called_user.srcObject = remoteStream;
+        video_called_user.play();
+    });
+  }, function(err) {
+    console.log('Failed to get local stream' ,err);
+  });
+});

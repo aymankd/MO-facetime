@@ -2861,10 +2861,10 @@
                             <div class="modal-body">
                                 <div class="icvideocallwrapper">
                                     <div class="icvideo-contact">
-                                        <img class="img-fluid icvideo-contact__inner" src="./assets/images/media/call-01.jpg" alt="">
+                                        <video class="img-fluid icvideo-contact__inner" id="video-user" style="width: 719;height: 975;" src="VIDx.mp4"></video>
                                     </div>
                                     <div class="icvideo-user">
-                                        <img class="" src="./assets/images/media/call-02.jpg" alt="">
+                                        <video class="img-fluid icvideo-contact__inner" id="video-called-user" style="width: 142;height: 95;" src="VIDo.mp4"></video>
                                     </div>
                                     <div class="icvideo-actions">
                                         <div class="icvideo-actions__left">
@@ -2965,17 +2965,16 @@
                                     <span>Incoming Call</span>
                                     <h4 id="caller-name"></h4>
                                 </div>
-
                                 <div class="call-actions">
                                     <div class="call-hangup" id="video-call-hangup" data-dismiss="modal"><i class="mdi mdi-phone-hangup"></i></div>
-                                    <div class="call-pickup" id="video-call-pickup" data-toggle="modal"><i class="mdi mdi-phone"></i></div>
+                                    <div class="call-pickup" id="video-call-pickup" data-toggle="modal" data-target="#incomingVideoStart"><i class="mdi mdi-phone"></i></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal calling-modal CallDialogFullscreen-sm show" id="incomingVoiceCallwait" tabindex="-1" role="dialog" aria-labelledby="incomingVoiceCall" aria-modal="true" style="display: none;">
+            <div class="modal calling-modal CallDialogFullscreen-sm show" id="incomingVoiceCallwait" tabindex="-1" role="dialog" aria-labelledby="incomingVoiceCallwait" aria-modal="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-body">
