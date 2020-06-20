@@ -178,7 +178,7 @@ function loadMessages(msgrep,name,photoprof,idTocall)
                     if(us == Userid){
                         msgtocant = `<div class="ca-send"><div class="ca-send__msg-group"><div class="ca-send__msgwrapper"><div class="ca-send__msg">${msg}</div></div><div class="metadata"><span class="time">10:10 AM</span><span class="tick"><img src="./assets/images/tick/tick-read.svg" alt=""></span></div></div></div>`;
                     }else{
-                        msgtocant = `<div class="ca-received"><div class="ca-received__msg-group"><div class="ca-received__msgwrapper"><div class="ca-received__msg">${msg}😀</div></div><div class="metadata"><span class="time">10:10 AM</span></div></div></div>`;
+                        msgtocant = `<div class="ca-received"><div class="ca-received__msg-group"><div class="ca-received__msgwrapper"><div class="ca-received__msg">${msg}</div></div><div class="metadata"><span class="time">10:10 AM</span></div></div></div>`;
                     }
                     chat_cantainer.insertAdjacentHTML('beforeend', msgtocant);
                 });
