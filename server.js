@@ -77,10 +77,23 @@ io.on('connection', function (connection)
         {
             dataTosend = {
                 to:data.to,
+                otherUsr:data.otherUsr,
                 peeId:data.PeeId
             };
             sendTo('accepteCall',users[data.to],dataTosend);
             console.log(data.to+'Video Call Startiing ...');    
+        }
+    });
+    connection.on('EndVidCall', function (message) 
+    {
+        data = JSON.parse(message);
+        if(users[data.to])
+        {
+            dataTosend = {
+                to:data.to
+            };
+            sendTo('FinishVideoCall',users[data.to],dataTosend);
+            console.log(data.to+' Video Call Finiisheeed ...');    
         }
     });
 
