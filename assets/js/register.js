@@ -59,7 +59,7 @@
           ref.child(user.uid).once('value', function(snapshot) {
             var exists = (snapshot.val() !== null);
             if (!exists) {
-              add_user(user,database);
+              add_userfb(user,database);
             }else{
               firebase.auth().signOut();
               alert('user already created an accoutn');
@@ -72,16 +72,36 @@
 
 
       function signin_gmail(){
-        alert('gmail connection');
+        var provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().useDeviceLanguage();
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+          // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+          var token = result.credential.accessToken;
+          // The signed-in user info.
+          var user = result.user;
+          // ...
+          var ref = database.ref('users');
+          ref.child(user.uid).once('value', function(snapshot) {
+            var exists = (snapshot.val() !== null);
+            if (!exists) {
+              add_userGo(user,database);
+            }else{
+              firebase.auth().signOut();
+              alert('user already created an accoutn');
+            }
+          });
+        }).catch(function(error) {
+          alert(error.message);
+        });  
       }
-      function signin_twitter(){
-        alert('twitter connection');
+      function signin_microsoft(){
+        alert('microsoft connection');
       }
 
 
 
       
-      function add_user(Us,db)
+      function add_userfb(Us,db)
       {
         var newData={
             id: Us.uid,
@@ -92,6 +112,19 @@
         }
         db.ref('users/'+Us.uid).set(newData);
         alert('user sussufuly created an account by Facebook');
-        location.replace("../../../../Home/theme/flingo/tf-demo/messenger.html");
+        location.replace("messenger");
       }
 
+      function add_userGo(Us,db)
+      {
+        var newData={
+            id: Us.uid,
+            username:Us.displayName,
+            email:Us.email,
+            photoUrl:Us.photoURL,
+            friends: {}
+        }
+        db.ref('users/'+Us.uid).set(newData);
+        alert('user sussufuly created an account by Gmail');
+        location.replace("messenger");
+      }
