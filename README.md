@@ -4,4 +4,4 @@
 @ webrtc
 @ peerjs
 
-\n By Med Ayman kadioui & Douha lerhribi
+By Med Ayman kadioui & Douha lerhribi
