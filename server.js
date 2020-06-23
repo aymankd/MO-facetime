@@ -9,7 +9,7 @@ var options = {
   key: fs.readFileSync('certificate/privateKey.key'),
   cert: fs.readFileSync('certificate/certificate.crt')
 };
-var serverPort = 8888;
+var serverPort = process.env.PORT ||8888;
 
 var server = https.createServer(options, app);
 var io = require('socket.io')(server);
