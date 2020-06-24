@@ -28,6 +28,9 @@ app.get('/messenger',(req,res,next) => {
     res.render('messenger.ejs');
 });
 
+app.get('/about',(req,res,next) => {
+    res.render('test.ejs');
+});
 
 
 
