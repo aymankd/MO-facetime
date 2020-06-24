@@ -20,6 +20,7 @@ video_call_pickup = document.getElementById('video-call-pickup');
 
 video_user = document.getElementById('video-user');
 video_called_user = document.getElementById('video-called-user');
+end_call = document.getElementById('end-call');
 
 
 reciver_call_profile = document.getElementById('reciver-call-profile');
@@ -223,7 +224,7 @@ function updateScroll()
   $('#chat-panel__body_').scrollTop($('#chat-panel__body_').prop("scrollHeight"));
 }
 
-
+callerIp = null;
 
 
 message_input.addEventListener("keyup", function(event) {
@@ -254,7 +255,7 @@ const reciveCall = (datacall) => {
             closeCall(callerid);
         };
         video_call_pickup.onclick = function(){
-            accepteCall(callerid,peerId)
+            accepteCall(callerid,peerId,Userid);
         };
 
         console.log(callerid+' is calling me');
@@ -273,9 +274,10 @@ function closeCall(caId)
 {
     send("hangup",{to: caId});
 }
-function accepteCall(caId,Pid)
+function accepteCall(caId,Pid,ui)
 {
-    send("Callanwser",{to: caId,PeeId:Pid});
+    callerIp = caId;
+    send("Callanwser",{to: caId,otherUsr:ui,PeeId:Pid});
     $('#incomingVoiceCall').modal("hide");
 }
 
@@ -297,8 +299,8 @@ function StartCall(Data){
         });
     reciverId = Data.peeId;
 
-
-
+    callerIp = Data.otherUsr;
+        console.log(Data.otherUsr);
     var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia ;
     getUserMedia({video: true}, function(stream) {
       var call = peer.call(reciverId, stream);
@@ -331,3 +333,31 @@ peer.on('call', function(call) {
     console.log('Failed to get local stream' ,err);
   });
 });
+
+
+end_call.onclick = function(){
+    stopBothVideoAndAudio(video_user.srcObject);
+    stopBothVideoAndAudio(video_called_user.srcObject);
+    endCall();
+    peer.destroy();
+};
+
+function endCall(){
+    send("EndVidCall",{to: callerIp});
+    console.log("ending call..."+callerIp);
+}
+
+function stopBothVideoAndAudio(stream) {
+    stream.getTracks().forEach(function(track) {
+        if (track.readyState == 'live') {
+            track.stop();
+        }
+    });
+}
+
+function finishVideoCall(){
+    $('#incomingVideoStart').modal("hide");
+    stopBothVideoAndAudio(video_user.srcObject);
+    stopBothVideoAndAudio(video_called_user.srcObject);
+    peer.destroy();
+}

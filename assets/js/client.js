@@ -44,7 +44,10 @@
         data = JSON.parse(message);
         StartCall(data);
       });
-
+      socket.on('FinishVideoCall', (message) => {
+        data = JSON.parse(message);
+        finishVideoCall();
+      });
 
       function send(event,message) 
       {

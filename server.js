@@ -9,7 +9,7 @@ var options = {
   key: fs.readFileSync('certificate/privateKey.key'),
   cert: fs.readFileSync('certificate/certificate.crt')
 };
-var serverPort = 8888;
+var serverPort = process.env.PORT ||8888;
 
 var server = https.createServer(options, app);
 var io = require('socket.io')(server);
@@ -80,10 +80,23 @@ io.on('connection', function (connection)
         {
             dataTosend = {
                 to:data.to,
+                otherUsr:data.otherUsr,
                 peeId:data.PeeId
             };
             sendTo('accepteCall',users[data.to],dataTosend);
             console.log(data.to+'Video Call Startiing ...');    
+        }
+    });
+    connection.on('EndVidCall', function (message) 
+    {
+        data = JSON.parse(message);
+        if(users[data.to])
+        {
+            dataTosend = {
+                to:data.to
+            };
+            sendTo('FinishVideoCall',users[data.to],dataTosend);
+            console.log(data.to+' Video Call Finiisheeed ...');    
         }
     });
 

@@ -4,7 +4,7 @@
   "description": "chat & video call website",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "author": "AKscript",
   "license": "ISC",
@@ -15,5 +15,8 @@
     "https": "^1.0.0",
     "path": "^0.12.7",
     "socket.io": "^2.3.0"
+  },
+  "engines": {
+    "node": "12.18.0"
   }
 }
